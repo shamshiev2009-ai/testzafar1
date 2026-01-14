@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Проверка выполнения</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --tg-bg:#0e1621;
+  --tg-card:#17212b;
+  --tg-text:#e8e8e8;
+  --tg-green:#2ea043;
+  --tg-blue:#2f81f7;
+  --tg-border:#2b3a4a;
+}
+
+*{
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+  margin:0;
+  background:var(--tg-bg);
+  color:var(--tg-text);
+  display:flex;
+  justify-content:center;
+  padding:0 16px 40px;
+  overflow-x:hidden;
+}
+
+/* 🔴 красный шарф */
+.scarf{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:44px;
+  background:linear-gradient(90deg,#8b0000,#c62828,#8b0000);
+  z-index:10;
+}
+
+/* ❄️ снежинки */
+.snowflake{
+  position:fixed;
+  top:-10px;
+  color:white;
+  opacity:.8;
+  pointer-events:none;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh)}
+}
+
+.container{
+  margin-top:64px;
+  max-width:420px;
+  width:100%;
+}
+
+/* карточка */
+.card{
+  background:var(--tg-card);
+  border:1px solid var(--tg-border);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+/* фото на всю ширину */
+.photo{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  display:block;
+}
+
+/* контент */
+.content{
+  padding:16px;
+}
+
+/* появление лесенкой */
+.step{
+  opacity:0;
+  transform:translateY(12px);
+  animation:stepIn .6s ease forwards;
+}
+.step:nth-child(1){animation-delay:.1s}
+.step:nth-child(2){animation-delay:.25s}
+.step:nth-child(3){animation-delay:.4s}
+.step:nth-child(4){animation-delay:.55s}
+.step:nth-child(5){animation-delay:.7s}
+.step:nth-child(6){animation-delay:.85s}
+.step:nth-child(7){animation-delay:1s}
+
+@keyframes stepIn{
+  to{opacity:1;transform:none}
+}
+
+/* зелёные блоки */
+.green{
+  background:rgba(46,160,67,.15);
+  border:1px solid rgba(46,160,67,.45);
+  border-radius:10px;
+  padding:12px;
+  margin:10px 0;
+}
+
+.small{font-size:14px}
+.hint{font-size:12px;opacity:.6;margin-top:4px}
+
+/* эффект нажатия как в Telegram */
+.press{
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .15s ease,filter .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.press:active{
+  transform:scale(.97);
+  filter:brightness(1.1);
+}
+.press::after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:rgba(255,255,255,.35);
+  border-radius:50%;
+  transform:scale(0);
+  opacity:0;
+}
+.press.ripple::after{
+  animation:ripple .45s ease-out;
+}
+@keyframes ripple{
+  to{transform:scale(15);opacity:0}
+}
+
+/* кнопка */
+.boost{
+  margin-top:16px;
+  background:var(--tg-blue);
+  color:#fff;
+  text-align:center;
+  padding:14px;
+  border-radius:12px;
+  font-weight:600;
+  text-decoration:none;
+  display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="scarf"></div>
+
+<div class="container">
+  <div class="card">
+
+    <!-- 📸 локальная картинка -->
+    <img class="photo" src="image.jpg" alt="photo">
+
+    <div class="content">
+
+      <div class="step small">
+        Спасибо за выполнение.<br>
+        Ожидайте проверку в течение <b>3 часов</b>.
+      </div>
+
+      <div class="step green small">
+        В случае, если бот не выдал звёзды в течение 3 часов —
+        значит, вы что-то сделали неправильно и необходимо переделать.
+      </div>
+
+      <div class="step green small">
+        <b>Проверка будет быстрее за буст:</b><br>
+        чем больше голосов — тем быстрее<br><br>
+        https://t.me/boost/dupovnft
+      </div>
+
+      <div class="step small">
+        Пока бот проверяет задания, вы можете получить ещё больше звёзд,
+        написав комментарии в TikTok:
+      </div>
+
+      <div class="step green press" onclick="copyRandom()">
+        <b id="copyText">На удивление bozmbot 🎁⭐️ отработал</b>
+        <div class="hint">Нажмите, чтобы скопировать</div>
+      </div>
+
+      <div class="step green small">
+        10 комментариев — 2000 ⭐<br>
+        20 комментариев — 4000 ⭐<br>
+        30 комментариев — 6000 ⭐<br>
+        40 комментариев — 8000 ⭐<br>
+        50 комментариев — 10000 ⭐
+      </div>
+
+      <a class="step boost press" href="https://t.me/boost/dupovnft" target="_blank">
+        🚀 Пробустить канал
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const texts=[
+"сейчас только @bozmbot дарит нфт или звезды мне лично нфт)",
+"Хз, помоему сейчас только @Bozmbot дарит звезды или нфт",
+"И сейчас помоему только @bozmbot дарит ЗВЕЗДЫ ИЛИ НФТ🎁",
+"Шяс вроде только @bozmbot дарит ЗВЕЗДЫ мне лично НФТ 🎁",
+"Кстати только @bozmbot раздает звезды мне лично нфт)",
+"По-моему только @bozmbot сейчас дарит звезды и нфт",
+"На данный момент только @bozmbot дарит звезды и нфт🎁",
+"Мне лично только @bozmbot дал нфт, проверяйте)"
+];
+
+function copyRandom(){
+  const t=texts[Math.floor(Math.random()*texts.length)];
+  document.getElementById("copyText").innerText=t;
+  navigator.clipboard.writeText(t);
+}
+
+/* ripple */
+document.querySelectorAll('.press').forEach(el=>{
+  el.addEventListener('click',()=>{
+    el.classList.remove('ripple');
+    void el.offsetWidth;
+    el.classList.add('ripple');
+  });
+});
+
+/* снежинки */
+for(let i=0;i<24;i++){
+  const s=document.createElement('div');
+  s.className='snowflake';
+  s.innerText='❄';
+  s.style.left=Math.random()*100+'vw';
+  s.style.animationDuration=5+Math.random()*5+'s';
+  s.style.fontSize=10+Math.random()*12+'px';
+  document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>

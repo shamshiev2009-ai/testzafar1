@@ -12,6 +12,7 @@
   --tg-text:#e8e8e8;
   --tg-green:#2ea043;
   --tg-blue:#2f81f7;
+  --tg-red:#c62828;
   --tg-border:#2b3a4a;
 }
 
@@ -28,36 +29,30 @@ body{
   justify-content:center;
   padding:0 16px 40px;
   overflow-x:hidden;
-}
-
-/* 🔴 красный шарф */
-.scarf{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:44px;
-  background:linear-gradient(90deg,#8b0000,#c62828,#8b0000);
-  z-index:10;
+  min-height:100vh;
 }
 
 /* ❄️ снежинки */
 .snowflake{
   position:fixed;
   top:-10px;
-  color:white;
-  opacity:.8;
+  color:#e6f2ff;
+  opacity:.7;
   pointer-events:none;
   animation:fall linear infinite;
+  text-shadow: 0 0 5px rgba(47, 129, 247, 0.5);
+  z-index: 1;
 }
 @keyframes fall{
   to{transform:translateY(110vh)}
 }
 
 .container{
-  margin-top:64px;
+  margin-top:40px;
   max-width:420px;
   width:100%;
+  z-index: 2;
+  position: relative;
 }
 
 /* карточка */
@@ -66,6 +61,8 @@ body{
   border:1px solid var(--tg-border);
   border-radius:14px;
   overflow:hidden;
+  position:relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
 /* фото на всю ширину */
@@ -152,16 +149,186 @@ body{
   text-decoration:none;
   display:block;
 }
+
+/* Профиль в правом верхнем углу */
+.profile-circle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tg-blue), #5d00ff);
+  cursor: pointer;
+  z-index: 20;
+  overflow: hidden;
+  border: 2px solid var(--tg-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+}
+
+.profile-circle:hover {
+  transform: scale(1.05);
+}
+
+.profile-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-circle::after {
+  content: "👤";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tg-card);
+  font-size: 18px;
+}
+
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(14, 22, 33, 0.95);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--tg-card);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid var(--tg-border);
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.modal-close {
+  background: var(--tg-red);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  transition: background 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #d32f2f;
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: var(--tg-green);
+  font-size: 18px;
+}
+
+/* Объединенный блок комментариев */
+.comments-block {
+  background: rgba(46,160,67,.15);
+  border: 1px solid rgba(46,160,67,.45);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.copyable-text {
+  background: rgba(46,160,67,.25);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  cursor: pointer;
+  border: 1px dashed rgba(46,160,67,.7);
+  transition: all 0.2s ease;
+}
+
+.copyable-text:hover {
+  background: rgba(46,160,67,.35);
+}
+
+/* Синий список наград */
+.rewards-list {
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(47, 129, 247, 0.15);
+  border: 1px solid rgba(47, 129, 247, 0.4);
+  border-radius: 10px;
+}
+
+.reward-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: rgba(47, 129, 247, 0.2);
+  border-radius: 8px;
+  border-left: 3px solid var(--tg-blue);
+}
+
+.reward-item span:last-child {
+  color: var(--tg-blue);
+  font-weight: bold;
+}
+
+/* Текстовый стиль для модалки */
+.modal-text {
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.modal-icon {
+  font-size: 48px;
+  text-align: center;
+  margin: 20px 0;
+  animation: pulse 2s infinite;
+  color: var(--tg-blue);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
 </style>
 </head>
 
 <body>
 
-<div class="scarf"></div>
+<!-- Профиль справа сверху -->
+<div class="profile-circle" onclick="showModal()"></div>
 
 <div class="container">
   <div class="card">
-
     <!-- 📸 локальная картинка -->
     <img class="photo" src="image.jpg" alt="photo">
 
@@ -183,22 +350,24 @@ body{
         https://t.me/boost/dupovnft
       </div>
 
-      <div class="step small">
-        Пока бот проверяет задания, вы можете получить ещё больше звёзд,
-        написав комментарии в TikTok:
-      </div>
-
-      <div class="step green press" onclick="copyRandom()">
-        <b id="copyText">На удивление bozmbot 🎁⭐️ отработал</b>
-        <div class="hint">Нажмите, чтобы скопировать</div>
-      </div>
-
-      <div class="step green small">
-        10 комментариев — 2000 ⭐<br>
-        20 комментариев — 4000 ⭐<br>
-        30 комментариев — 6000 ⭐<br>
-        40 комментариев — 8000 ⭐<br>
-        50 комментариев — 10000 ⭐
+      <div class="step comments-block">
+        <div class="small">
+          Пока бот проверяет задания, вы можете получить ещё больше звёзд,
+          написав комментарии в TikTok:
+        </div>
+        
+        <div class="copyable-text press" onclick="copyRandom()">
+          <b id="copyText">На удивление bozmbot 🎁⭐️ отработал</b>
+          <div class="hint">Нажмите, чтобы скопировать</div>
+        </div>
+        
+        <div class="rewards-list">
+          <div class="reward-item"><span>10 комментариев</span> <span>— 2000 ⭐</span></div>
+          <div class="reward-item"><span>20 комментариев</span> <span>— 4000 ⭐</span></div>
+          <div class="reward-item"><span>30 комментариев</span> <span>— 6000 ⭐</span></div>
+          <div class="reward-item"><span>40 комментариев</span> <span>— 8000 ⭐</span></div>
+          <div class="reward-item"><span>50 комментариев</span> <span>— 10000 ⭐</span></div>
+        </div>
       </div>
 
       <a class="step boost press" href="https://t.me/boost/dupovnft" target="_blank">
@@ -209,7 +378,42 @@ body{
   </div>
 </div>
 
+<!-- Модальное окно -->
+<div class="modal" id="statusModal">
+  <div class="modal-content">
+    <div class="modal-icon">⏳</div>
+    <h3>Статус выдачи подарка</h3>
+    
+    <div class="modal-text">
+      Ваш подарок находится на проверке. Это займет не более <b>3 часов</b>.
+    </div>
+    
+    <div class="modal-text">
+      После успешной проверки бот автоматически выдаст вам звезды или NFT. 
+      Пожалуйста, ожидайте уведомления.
+    </div>
+    
+    <div class="modal-text small" style="opacity:0.7;">
+      Если прошло более 3 часов, проверьте правильность выполнения задания 
+      или воспользуйтесь функцией буста для ускорения проверки.
+    </div>
+    
+    <button class="modal-close press" onclick="hideModal()">
+      ← Назад к статусу
+    </button>
+  </div>
+</div>
+
 <script>
+// Telegram Mini Apps API
+let tg = window.Telegram.WebApp;
+
+// Инициализация Telegram Web App
+if (tg && tg.initData) {
+  tg.expand(); // Раскрываем на весь экран
+  tg.enableClosingConfirmation(); // Включаем подтверждение при закрытии
+}
+
 const texts=[
 "сейчас только @bozmbot дарит нфт или звезды мне лично нфт)",
 "Хз, помоему сейчас только @Bozmbot дарит звезды или нфт",
@@ -225,6 +429,13 @@ function copyRandom(){
   const t=texts[Math.floor(Math.random()*texts.length)];
   document.getElementById("copyText").innerText=t;
   navigator.clipboard.writeText(t);
+  
+  // Показать уведомление о копировании
+  const originalText = document.getElementById("copyText").innerText;
+  document.getElementById("copyText").innerText = "✓ Скопировано!";
+  setTimeout(() => {
+    document.getElementById("copyText").innerText = originalText;
+  }, 1000);
 }
 
 /* ripple */
@@ -246,6 +457,22 @@ for(let i=0;i<24;i++){
   s.style.fontSize=10+Math.random()*12+'px';
   document.body.appendChild(s);
 }
+
+/* Функции для модального окна */
+function showModal() {
+  document.getElementById('statusModal').style.display = 'flex';
+}
+
+function hideModal() {
+  document.getElementById('statusModal').style.display = 'none';
+}
+
+// Закрытие модалки по клику вне её
+document.getElementById('statusModal').addEventListener('click', function(e) {
+  if(e.target === this) {
+    hideModal();
+  }
+});
 </script>
 
 </body>
